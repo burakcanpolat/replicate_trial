@@ -30,6 +30,7 @@ from unittest.mock import patch, MagicMock
 from dotenv import load_dotenv
 from replicate_trial.replicate_processor import ReplicateProcessor, ReplicateAPIError
 import time
+import json
 
 # Load environment variables at the start of the test file
 load_dotenv()
@@ -132,34 +133,49 @@ def test_api_token_verification(mock_api_response):
 
 @pytest.mark.unit
 def test_process_text_timeout(processor):
-    """
-    Test text processing timeout handling.
+    """Test text processing timeout handling."""
+    processor.timeout = 0.1  # Set a very short timeout
+    
+    def mock_stream(*args, **kwargs):
+        time.sleep(0.2)  # Sleep longer than the timeout
+        yield "Response that will never complete"
+    
+    with patch('replicate.stream') as mock_stream_func:
+        mock_stream_func.return_value = mock_stream()
+        with pytest.raises(TimeoutError) as exc_info:
+            processor.process_text("Test text")
+        assert "exceeded timeout" in str(exc_info.value)
 
-    This test verifies that the processor correctly handles timeouts by:
-    1. Setting up a mock that simulates a slow API response
-    2. Verifying that a timeout error is raised after the specified duration
-    3. Checking that the error message contains the word 'timed out'
-
-    Args:
-        processor: ReplicateProcessor fixture
-    """
-    with patch('replicate.run') as mock_run:
-        # Mock a slow API response that raises TimeoutError
-        def slow_response(*args, **kwargs):
-            raise TimeoutError("API call timed out")
-
-        mock_run.side_effect = slow_response
-
-        # Set a short timeout for the test
-        processor.timeout = 0.1
-
-        with pytest.raises(ReplicateAPIError) as exc_info:
-            processor.process_text("test text")
-
-        assert "timed out" in str(exc_info.value).lower()
+@pytest.mark.unit
+def test_process_text_retries(processor):
+    """Test retry mechanism for failed API calls."""
+    def failed_stream():
+        raise ConnectionError("API call failed")
+    
+    def success_stream():
+        yield json.dumps({
+            "metadata": {
+                "summary": "Test response",
+                "tags": ["test"],
+                "key_points": ["Test point"]
+            },
+            "formatted_text": "Test text"
+        })
+    
+    with patch('replicate.stream') as mock_stream:
+        # First two calls fail, third succeeds
+        mock_stream.side_effect = [
+            failed_stream(),
+            failed_stream(),
+            success_stream()
+        ]
+        
+        result = processor.process_text("Test text", max_retries=3)
+        assert result['metadata']['summary'] == "Test response"
+        assert result['formatted_text'] == "Test text"
 
 @pytest.mark.integration
-@pytest.mark.slow
+@pytest.mark.skip(reason="Integration test requires valid API token")
 def test_process_text_integration(processor):
     """
     Integration test for text processing functionality.
@@ -182,33 +198,6 @@ def test_process_text_integration(processor):
     # Check that we got a result
     assert isinstance(result, dict)
     assert 'formatted_text' in result or 'error' in result
-
-@pytest.mark.unit
-def test_process_text_retries(processor):
-    """
-    Test retry mechanism for failed API calls.
-
-    This test verifies that:
-    1. The processor retries failed API calls
-    2. Exponential backoff is applied between retries
-    3. A successful response is eventually returned
-
-    Args:
-        processor: ReplicateProcessor fixture
-    """
-    with patch('replicate.run') as mock_run:
-        # Mock failed API calls that succeed on the third try
-        mock_run.side_effect = [
-            Exception("First failure"),
-            Exception("Second failure"),
-            [{"formatted_text": "success", "metadata": {"summary": "test", "tags": [], "key_points": []}}]
-        ]
-
-        result = processor.process_text("test text", max_retries=3)
-        assert result == {
-            "formatted_text": "success",
-            "metadata": {"summary": "test", "tags": [], "key_points": []}
-        }
 
 @pytest.mark.unit
 def test_save_processed_text(processor, tmp_path):

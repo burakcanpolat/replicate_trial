@@ -179,19 +179,23 @@ def test_error_recovery_scenarios(processor, mocker):
 
 def test_unicode_and_special_chars_in_metadata(processor, mocker):
     """Test handling of Unicode and special characters in metadata."""
-    def mock_run(*args, **kwargs):
-        return [json.dumps({
+    def mock_stream(*args, **kwargs):
+        json_response = {
             "metadata": {
-                "summary": "Test with Unicode: 你好",
-                "tags": ["emoji🌍", "special&chars"],
+                "summary": "Test with Unicode: \u4f60\u597d",
+                "tags": ["emoji\U0001f30d", "special&chars"],
                 "key_points": ["Point with quotes'\""]
             },
-            "formatted_text": "Unicode text: 你好 🌍"
-        })]
-    
-    mocker.patch("replicate.run", side_effect=mock_run)
-    
+            "formatted_text": "Unicode text: \u4f60\u597d \U0001f30d"
+        }
+        yield json.dumps(json_response)
+
+    mocker.patch("replicate.stream", return_value=mock_stream())
+
     result = processor.process_text("Test text")
-    assert "你好" in result['metadata']['summary']
-    assert "emoji🌍" in result['metadata']['tags']
-    assert "🌍" in result['formatted_text']
+
+    # Check that Unicode characters are preserved
+    assert "\u4f60\u597d" in result['metadata']['summary']
+    assert "\U0001f30d" in result['metadata']['tags'][0]
+    assert "quotes'\"" in result['metadata']['key_points'][0]
+    assert "\u4f60\u597d \U0001f30d" in result['formatted_text']

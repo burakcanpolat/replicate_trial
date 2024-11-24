@@ -23,24 +23,25 @@ def mock_requests_get(mocker):
     return mock
 
 @pytest.fixture
-def mock_replicate_run(mocker):
-    """Mock the replicate.run function to return a valid response."""
-    def mock_run(*args, **kwargs):
+def mock_replicate_stream(mocker):
+    """Mock the replicate.stream function to return a valid response."""
+    def mock_stream(*args, **kwargs):
         input_text = kwargs['input']['prompt'].split('Text to process:\n\n')[-1]
-        return [json.dumps({
+        json_response = {
             "metadata": {
                 "summary": "Test response",
                 "tags": ["test"],
                 "key_points": ["Test point"]
             },
             "formatted_text": input_text
-        })]
+        }
+        yield json.dumps(json_response)
     
-    mock = mocker.patch("replicate.run", side_effect=mock_run)
+    mock = mocker.patch("replicate.stream", side_effect=mock_stream)
     return mock
 
 @pytest.fixture
-def processor(mock_env, mock_replicate_run, mock_requests_get):
+def processor(mock_env, mock_replicate_stream, mock_requests_get):
     """Create a ReplicateProcessor instance with mocked dependencies."""
     return ReplicateProcessor()
 
