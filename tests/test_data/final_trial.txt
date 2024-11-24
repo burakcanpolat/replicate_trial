@@ -1,0 +1,396 @@
+if you want to chat with your docs if
+you want to chat with your text files
+your PDFs csvs Excel files anything any
+type of document really this is such a
+great project private GPT is my most
+popular video of all time I made it
+months ago and since then the developers
+have built a ton of new functionality
+and really changed the course of private
+GPT completely and so today I'm going to
+show you the updated way to install it
+I'm going to show you all of the new
+features and we have a special guest at
+the end so let's go so this is private
+GPT it is completely open source you can
+run it entirely locally with a local
+open- Source model you can also use chat
+GPT if you want to everything is super
+flexible now and private GPT has really
+transitioned into becoming a developer
+product so I'm going to show you a
+little bit about that but it's still
+just as strong for the end user if you
+just want to load up your documents and
+chat with them this is still one of the
+best options out there and so this is
+the GitHub page it has nearly 40,000
+Stars almost 5 1 half th000 forks and
+now they have a super easy to use API
+and the way you can think about the API
+is it's essentially an extension of the
+open AI API and really many projects are
+using the open AI API as the standard
+and building off of that including
+autogen and what that means why that's
+so important is it makes private GPT an
+easy dropin replacement for chat GPT and
+then you get all of this additional
+functionality around retrieval augmented
+generation so we're going to check out
+two things I'm going to show you how to
+install the basic user interface and
+show you a couple of the settings and
+then I'm going to show you around the
+API and so the first thing to note is
+that the original version of private GPT
+is still active it's called the
+primordial version so if you want that
+which was launched in May 2023 which is
+also the same month that I reviewed it
+you can find that here but if you want
+the updated version that's what we're
+going to be talking about right now
+thanks to the sponsor of this video
+service now service now enables
+businesses to automate a ton of their
+processes enabling a more productive and
+efficient team and now they offer direct
+AI Integrations including Azure open aai
+and service now's own large language
+model which allows for an even greater
+level of automation thanks to the
+generative AI controller and now with
+their now assist AI solution you can
+layer AI onto every one of your teams
+within your business from it a customer
+service to HR to developers and just as
+an example with now assist for let's say
+the customer service team you can
+decrease response times summarize cases
+gather context more quickly and make all
+of your resolution data super consistent
+and with now assist for creators you can
+actually give them the power of AI to
+generate code greatly accelerating the
+time to deployment so be sure to check
+out service now's intelligent AI
+platform to see how it can automate and
+improve your business today the link
+will be in the description below and
+thanks again to today's sponsor service
+now so we switch over to the private GPT
+documentation and they really spent a
+lot of time on this documentation it is
+very thorough and as a developer I
+really appreciate that so if we scroll
+down we see this quick local
+installation steps and that's what I'm
+going to be walking you through we're
+going to set this up entirely locally
+we're not going to use chat GPT at all
+so switching over to our terminal the
+first thing we're going to do is clone
+the repo and before we get started all
+of these commands I'm going to put into
+a gist I'm going to put them in the
+comments below so you don't need to copy
+these down as we go you'll find them all
+in the gist below so here we go get
+clone and then the URL and it's IM
+Martinez SL privat GPT and then hit
+enter once you have that cloned we're
+going to CD into that new directory CD
+private GPT now in the documentation
+they use Pi M but I'm a big fan of cond
+so that's what we're going to be using
+today and K allows you to isolate your
+python environments making module
+management that much easier so we're
+going to type con create DN private GPT
+python equal 3.11 and then hit enter and
+I already have an environment named to
+that so I'm going to go ahead and remove
+it and create this new one but you
+probably won't come across this warning
+all right then we hit enter to proceed
+all right from there we're going to grab
+this Command right here cond to activate
+private GPT we're going to paste it and
+that's how we're going to activate our
+environment hit enter now you know the
+environment is activated because it says
+so right there next we're going to use
+poetry to install the UI and the local
+version and and if you don't have poetry
+installed you can use Brew to install it
+and of course I'm installing this on a
+Mac but the installation process should
+be quite similar on a PC I don't believe
+Brew is available on the PC but you can
+just Google how to install poetry on a
+PC so here we go Brew install poetry and
+I already have it so I'm not going to do
+that next we're going to do what we said
+poetry install d-wi UI comma local hit
+enter and that is going to handle all of
+the installations for us it's really
+really nice and easy all right there we
+go everything's installed it looks like
+it got installed perfectly we have one
+little warning right here but I'm going
+to ignore that for now next we're going
+to use poetry to run this script and
+it's the setup script and one important
+thing to note is a lot of the settings
+that we use to customize private GPT are
+found in this setup script so if you
+want to customize anything we can do
+that so let's take a look at the
+customizations now and if we go to the
+settings. yo file this is where we can
+actually change the different settings
+here for the local model we're going to
+be downloading the Bloks mistal 7B
+instruct model but the documentation
+also says that llama 2 works really well
+so you can try either of those models
+and yeah because those are Cutting Edge
+open source models so if you wanted to
+change it if you wanted to experiment
+with other models this is where you
+would do so you can also use Amazon sag
+maker and so if you wanted to host your
+model at Amazon sag maker this is where
+you would enter the endpoint name right
+here and if you wanted to use open AI
+you can do that right here as well but
+we're going to stick with all of the
+standard settings for this setup so
+switching back to our terminal we're
+going to run poetry run Python scripts
+SLS setup hit enter and this may take a
+little while because it's actually going
+to be downloading the models we need the
+embedding model as well as the large
+language model and just a reminder the
+embedding model is the model that
+converts text into Vector storage and
+here you can see we're downloading the
+mistal instruct model which is about 4
+GB a little bit over 4 gabt and you know
+mistol is one of my favorite models
+because it's small it performs extremely
+well well and it runs easily on my
+machine okay that's it that only took a
+couple minutes so that's awesome and as
+a reminder private GPT is using
+llama.el which means that you have to
+use GG UF format and any model that you
+actually want to test out which is fine
+because that's an awesome format and by
+default it's using chroma DB as the
+local Vector storage all right next we
+have to set a few values and this is
+specific to a Mac now if you're on a
+Windows machine check out the do dou
+umentation they talk about what to do
+specific to a PC but for the Mac this is
+what we're going to be doing and
+switching over to the documentation if
+you have an Nvidia GPU here it is this
+is what you look for Windows Nvidia GPU
+support and then you follow these
+instructions and this is the main code
+that you're going to be running that is
+specific to Windows but since we're on a
+Mac here's what we're going to do cmake
+args equals and then we're going to say
+llama metal on pip install Force
+reinstall no cache llama CPP Python and
+then hit enter okay it looks like we
+actually got some errors tree of
+thoughts AER chat streamlit pedals I
+don't think these are related to the
+project though yeah and looking through
+the code base they have no mention of
+Trio thoughts AER chat streamlit pedals
+so I think this is related to my local
+machine these are all projects that I've
+tried to play around with and now
+they're just incompatible so I'm just
+going to ignore that I think it's fine
+you probably won't see this next we need
+to set this variable
+pgp profiles equals local make run now
+this is a really important step to
+follow and I think a lot of people skip
+this step so make sure to run this hit
+enter okay and I think that's it now
+it's all loaded up let's give it a try
+there it is private GPT and it uses
+gradio for the UI but of course now that
+it's a more developer focused product
+the point is you can add it to any UI
+that you want so let's experiment let's
+see if this works so if we look up here
+in the top left we see mode we have
+query documents now that is the standard
+chat with your docs setting then we have
+llm chat and that means you just want to
+do standard chatting with an llm and it
+won't actually do retrieval and then
+context chunks is interesting because
+that is just what you're getting from
+the vector database so if you actually
+want to see the data going back and
+forth from the vector database select
+context chunks so let's switch over to
+query documents and we're going to
+upload a file I'm going to select this
+file which is the autogen research paper
+so now we're uploading it it's
+processing it which means it's
+converting it into a vector database
+using the embeddings model and then
+we'll be able to use it now as I
+mentioned
+private GPT is now fully customizable
+which means you can set the chunk size
+you have a bunch of other settings that
+you can play around with to make sure
+that you're getting the best results for
+your use case there we go we have it
+working injested file now let's try
+asking a question okay so summarize the
+autogen research paper and there we go
+we have a decent summary of the autogen
+research paper now again this is running
+completely locally on my own machine I
+bet if I tried other models we might get
+better performance and even if we used
+an open AI model we might get even
+better performance now if we switch over
+to context chunks let's see what happens
+let's do retry and it's instant and we
+can look through all the returning data
+from the vector database and of course
+if we switch over to llm chat I can just
+say hello and it's just like chatting
+with the mistal model hello how can I
+assist you today tell me a joke why
+don't scientists trust Adams because
+they make up everything so yeah that's
+it that is the basic setup for private
+GPT and so let's do one more test I'm
+going to try uploading the first book of
+Harry Potter so we click upload a file I
+have it in PDF format it might be easier
+to convert it over to a txt file but
+let's test it out with PDF and if we
+switch over to the terminal we can
+actually see the logs and it says
+generating embeddings right now so we
+can see it working as it goes okay we
+can see it's done now let's ask it a
+question who is Harry Potter Harry
+Potter is a fictional character and the
+protagonist of the Harry Potter series
+by JK Rowling he is a young boy with
+magical abilities who attends hogwart's
+School of Witchcraft in magical studies
+so likely the model already had that
+information but let's try a different
+query to make sure that it didn't
+already have that information in its
+model what is the title of the first
+chapter of the first Harry Potter book
+the title of the first chapter of the
+first Harry Potter book is the boy who
+lived and that's correct and if we don't
+clear it it will remember our
+conversation so we don't have to specify
+if we want to keep asking questions now
+let's talk a little bit about the API I
+switched over to the private GPT
+documentation and there's a couple
+things that I want to show you first you
+can have different settings which is
+really nice you can have a version that
+runs completely locally you can also
+have another version that tests a
+different model locally and you can have
+another profile that uses an open AI API
+so right here our first API endpoint is
+ingest and this is a post endpoint and
+with that you provide a file and you can
+also get a list of the ingested
+documents just like that and this is the
+completions endpoint and this is the
+same exact type of endpoint as open ai's
+API and as I said we have a special
+guest I'd like to welcome Ivonne
+Martinez who is the original developer
+of private GPT and also leads the
+project today and I have two questions
+for him one what inspires you to build
+private GPT at first and two what are
+some of the coolest features that are
+coming up soon when I started playing
+around with ch GPT open Ai apis and llms
+in general it became super clear to me
+that uh this was a huge opportunity for
+the Enterprise ecosystem but when I went
+out and asked all the cdos of different
+startups uh if they were using this
+technology they said no and the reason
+was privacy concerned so at the same
+time I realized privacy was a huge
+problem I was very active in the open
+source community and I knew about
+projects like L chain Lama index fromb
+open source Vector database and then at
+some point Nomi released GPT for all
+these smaller LMS that could run on a
+CPU of a normal computer and I said okay
+maybe all of these can be put together
+and that's how private gbt was born I
+created a very simple uh CH gbt like
+experience where you could chat with
+your documents but the important part
+was that you did it fully locally so you
+could even run it without an internet
+connection we are working on a bunch of
+things first of all we are adding more
+tools to the API we're going to be
+adding more data sources like access to
+the internet like connection to datab
+bases and you can expect some high level
+tools or apis like summarization or data
+extraction coming in the in the next
+weeks and months then the second part is
+standard way of observing what is going
+on within the pipelines and also uh
+running evalu ation to make sure the
+accuracy is high enough for your your
+production setup and the last bit is on
+the setups themselves because you can
+set a private GPT in very uh different
+ways you can set it up fully local you
+can set it up as a single instance in a
+gcp for example or you can have it like
+in a in a distributed way where an
+instance is hosting private GPT API but
+then you have the llm running on
+sagemaker for example and the vector
+database somewhere else so we're going
+to be sharing with the community
+different setup uh possibilities because
+that's where it comes very very useful
+because the whole idea of PR gbt is that
+is being used in production so I hope
+this feels as exciting as it feels for
+us all right thanks for joining us Ivon
+and if you like this video please
+consider giving a like And subscribe and
+I'll see you in the next one

@@ -1,0 +1,40 @@
+METADATA
+========
+
+Summary:
+--------
+
+
+Tags:
+-----
+
+
+Key Points:
+-----------
+
+FORMATTED TEXT
+==============
+
+Private GPT is an open-source, locally installable version of ChatGPT with additional features and functionality.
+
+Private GPT has nearly 40,000 stars, almost 500 forks, and a super easy-to-use API.
+
+Private GPT is an extension of the OpenAI API and can be used as a drop-in replacement for ChatGPT.
+
+Private GPT offers direct AI integrations with Azure OpenAI and Service Now's large language model, allowing for even greater automation.
+
+Private GPT's generative AI controller enables businesses to automate a ton of their processes, making their teams more productive and efficient.
+
+Private GPT's now assist AI solution allows businesses to layer AI onto every one of their teams, from customer service to HR to developers. Set up private GPT on a local machine, including downloading and configuring models, and using the model for text generation and question answering.,
+ private GPT, local machine, model configuration, text generation, question answering,
+ Downloaded and configured models, Used model for text generation and question answering, Private GPT is now fully customizable
+,
+ private GPT is now fully customizable which means you can set the chunk size you have a bunch of other settings that you can play around with to make sure that you're getting the best results for your use case there we go we have it working injested file now let's try asking a question okay so summarize the autogen research paper and there we go we have a decent summary of the autogen research paper now again this is running completely locally on my own machine I bet if I tried other models we might get better performance and even if we used an open AI model we might get even better performance now if we switch over to context chunks let's see what happens let's do retry and it's instant and we can look through all the returning data from the vector database and of course if we switch over to llm chat I can just say hello and it’s just like chatting with the mistal model hello how can I assist you today tell me a joke why don’t scientists trust Adams because they make up everything so yeah that’s it that is the basic setup for private GPT and so let’s do one more test I’m going to try uploading the first book of Harry Potter so we click upload a file I have it in PDF format it might be easier to convert it over to a txt file but let’s test it out with PDF and if we switch over to the terminal we can actually see the logs and it says generating embeddings right now so we can see it working as it goes okay we can see it’s done now let’s ask it a question who is Harry Potter Harry Potter is a fictional character and the protagonist of the Harry Potter series by JK Rowling he is a young boy with magical abilities who attends Hogwarts School of Witchcraft and Wizardry in magical studies so likely the model already had that information but let’s try a different query to make sure that it didn’t already have that information in its model what is the title of the first chapter of the first Harry Potter book the title of the first chapter of the first Harry Potter book is ‘The Boy Who Lived’.” Private GPT is a privacy-focused alternative to OpenAI's GPT API, built by the original developer Ivonne Martinez.
+
+Private GPT is designed to be fully local, allowing users to run it without an internet connection, and provides a simple chat-like experience for interacting with documents.
+
+The API includes different settings for running locally or in a distributed manner, and tools for summarization and data extraction are coming soon.
+
+The project is focused on providing a privacy-preserving solution for the Enterprise ecosystem, addressing concerns about data privacy and security.
+
+Martinez emphasizes the importance of privacy and security in the development and use of AI technology.
